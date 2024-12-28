@@ -1,0 +1,10 @@
+langchain
+langchain-core
+langchain-community
+streamlit
+firecrawl-py
+langchain-google-genai
+langgraph
+langchain-pinecone
+pinecone-notebooks
+python-dotenv
