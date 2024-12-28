@@ -1,4 +1,9 @@
 from pydantic import BaseModel, Field
+from typing import (
+    TypedDict, 
+    List
+)
+from langchain_core.documents import Document
 
 # Subschemas
 
@@ -31,7 +36,7 @@ class OutcomeSchema(BaseModel):
 
 # Primary Schemas
 
-class LegalSummarySchema(BaseModel):
+class LegalSummarySchemaOutput(BaseModel):
     context: str = Field(..., description="The context or scenario requiring legal summary.")
     parties: list[PartySchema] = Field(..., description="Details of the parties involved.")
     relevant_dates: list[DateSchema] = Field(..., description="Key dates relevant to the case or legal scenario.")
@@ -39,7 +44,7 @@ class LegalSummarySchema(BaseModel):
     jurisdiction: str = Field(..., description="Jurisdiction or legal area applicable.")
     keywords: list[str] = Field(..., description="Keywords to focus on in the summary.")
 
-class LawContentAnalysisSchema(BaseModel):
+class LawContentAnalysisSchemaOutput(BaseModel):
     document_id: str = Field(..., description="Unique identifier for the document under analysis.")
     content: str = Field(..., description="The full content of the legal document.")
     document_type: str = Field(..., description="Type of legal document (e.g., contract, statute, case law).")
@@ -48,7 +53,7 @@ class LawContentAnalysisSchema(BaseModel):
     applicable_laws: list[str] = Field(..., description="List of laws or precedents relevant to the document.")
     analysis_depth: str = Field(..., description="Depth of analysis required (e.g., summary, detailed, critical).")
 
-class LegalActionsSuggestionsSchema(BaseModel):
+class LegalActionsSuggestionsSchemaOutput(BaseModel):
     scenario: str = Field(..., description="Description of the legal scenario requiring action suggestions.")
     goals: list[str] = Field(..., description="List of desired outcomes or goals for the legal actions.")
     risks: list[RiskSchema] = Field(..., description="Identified risks associated with the scenario.")
@@ -57,7 +62,7 @@ class LegalActionsSuggestionsSchema(BaseModel):
     timeline: str = Field(..., description="Expected or desired timeline for the legal actions.")
     constraints: list[str] = Field(..., description="Constraints or limitations to consider when suggesting actions.")
 
-class LegalActionsEvaluationSchema(BaseModel):
+class LegalActionsEvaluationSchemaOutput(BaseModel):
     actions: list[str] = Field(..., description="List of proposed legal actions for evaluation.")
     evaluation_criteria: list[str] = Field(..., description="Criteria for evaluating the proposed actions.")
     risks: list[RiskSchema] = Field(..., description="Potential risks associated with each action.")
@@ -65,3 +70,16 @@ class LegalActionsEvaluationSchema(BaseModel):
     legal_compliance: list[str] = Field(..., description="Legal requirements or compliance issues for each action.")
     stakeholder_impact: list[str] = Field(..., description="Impact of actions on stakeholders involved.")
     prioritization: list[str] = Field(..., description="Suggested prioritization of actions based on evaluation.")
+
+class GraphState(TypedDict):
+    url: str
+    legal_question: str
+    lang: str
+
+    context: List[Document]
+    legal_summary_output: LegalSummarySchemaOutput
+    law_content_analysis_output: LawContentAnalysisSchemaOutput
+    legal_actions_suggestions_output: LegalActionsSuggestionsSchemaOutput
+    legal_actions_evaluation_output: LegalActionsEvaluationSchemaOutput
+    are_legal_actions_correct: str
+    final_decision: str

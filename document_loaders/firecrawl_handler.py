@@ -27,7 +27,7 @@ def firecrawl_handler_scrape(url):
     if docs:
         split_docs = splitter.split_documents(docs)
 
-        logger.info(f"Found URL for scraping")
+        logger.info(f"Found URL for scraping with Firecrawl")
         logger.info(f"Splitting documents into {len(split_docs)} chunks")
 
         return split_docs
